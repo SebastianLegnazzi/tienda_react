@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "mifuente";
+    src: url(../fonts/Alcattraz\ Zone.ttf);
+}
+
+.losadef{
+    font-family: "mifuente"; 
+    font-size:30px;
+}
