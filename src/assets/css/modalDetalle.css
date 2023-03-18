@@ -1,0 +1,27 @@
+/* Detalle */
+  
+#content__info__detalle p {
+    margin-left: 50px;
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    box-shadow: 1px 2px 5px #111;
+  }
+  
+  .modal-content{
+    background-color: rgb(70, 70, 70);
+  }
+  
+  #nombre__detalle {
+    margin: 0 0 20px 50px;
+    color: #e285d9;
+    font-size: 30px;
+  }
+  
+  #precio__detalle {
+    color: rgb(117, 255, 117);
+    font-size: 30px;
+    border: 2px solid rgb(160, 160, 160);
+    box-shadow: 1px 2px 8px #111;
+    text-align: center;
+  }

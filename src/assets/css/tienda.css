@@ -1,0 +1,65 @@
+
+/* tarjetas productos */
+
+.tarjetas-productos {
+    background-color: rgb(58, 58, 58);
+    padding: 10px;
+    box-shadow: 0 0 10px #111;
+    margin: 20px;
+    float: left;
+    transition: all 0.3s;
+    color: white;
+  }
+  
+  .tarjeta-producto__info p {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bolder;
+    margin-top: 5px;
+  }
+  
+  .tarjeta-producto__imagen img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .tarjetas-productos:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Filtrador */
+  
+  #filtrador {
+    font-size: 18px;
+    color: #111;
+    box-shadow: 3px 3px 10px #111;
+    outline: none;
+    padding: 5px;
+  }
+  
+  .filter {
+    display: none;
+  }
+  
+  /* Contador Carrito */
+  
+  #contador__carrito {
+    margin-right: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: rgb(255, 126, 158);
+    line-height: 0em;
+    width: 100%;
+  }
+  
+  #total-Compra {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px 0;
+    font-size: 20px;
+    color: rgb(107, 255, 107);
+    text-align: center;
+    border: 2px solid rgb(99, 255, 99);
+  }

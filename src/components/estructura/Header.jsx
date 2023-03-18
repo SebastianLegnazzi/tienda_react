@@ -19,11 +19,6 @@ export default class Header extends Component {
                             <li><NavLink to="/" className="px-2 mx-1 btn btn-lg btn-outline-light">Home</NavLink></li>
                             <li><NavLink to="/tienda" className="px-2 mx-1 btn btn-lg btn-outline-light">Tienda</NavLink></li>
                         </ul>
-
-                        <div className="text-end d-flex align-items-center">
-                            <button type='button' className='btn btn-lg btn-outline-light me-2' onclick="cerrarSesion()">SALIR</button>
-                            <a href='../sesion/IniciarSesion.php' className='btn btn-lg btn-outline-light me-2'>INGRESAR</a>
-                        </div>
                     </div>
                 </div>
             </div>

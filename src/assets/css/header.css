@@ -7,3 +7,17 @@
     font-family: "mifuente"; 
     font-size:30px;
 }
+
+.texto-titulo {
+    text-shadow: 3px 4px 6px #111;
+  }
+
+  
+h1 {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    font-size: 40px;
+    margin-top: 20px;
+  }
+  

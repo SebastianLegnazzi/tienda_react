@@ -24,7 +24,7 @@ export default class Home extends Component {
                         </div>
                         <div className="col-lg-6">
                             <h1 className="display-5 fw-bold lh-1 mb-3 índigo-300 text-light fst-italic">¿Quienes Somos?</h1>
-                            <p className="lead">
+                            <div className="lead">
                                 <p className="text-light">De todo un poco nace en 2022 con la idea de renovar el mercado y la forma de realizar trajes.
                                     La propuesta es la siguiente; que cada persona que desea realizar algun tipo de vestimenta no tenga la necesidad de salir de su casa y
                                     pueda de una forma rapida y eficaz llevar a cabo la prenda deseada.
@@ -35,7 +35,7 @@ export default class Home extends Component {
                                 <p className="text-light">El objetivo? simple, poder llevar a cada parte del pais una casa de modistas, con los costos mas bajos del pais al
                                     poder reducir costos al maximo. Ademas, va a ser intuitiva, facil de usar y sin costos ocultos, sera transparente sin ningun tipo de letra chica.
                                 </p>
-                            </p>
+                            </div>
 
                         </div>
                     </div>
