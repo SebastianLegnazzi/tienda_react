@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import {Producto} from './Producto';
+import { Producto } from './Producto';
+import Global from '../Global';
+
 
 export default class Productos extends Component {
-    /*===================== Cargo variables dinamicas =====================*/
-    constructor(props){
+
+    /*===================== Cargo variables =====================*/
+    constructor(props) {
         super(props)
         this.state = {
             productos: {},
@@ -18,7 +21,7 @@ export default class Productos extends Component {
 
     /*===================== Consultas Ajax =====================*/
     getProductos = () => {
-        axios.get('http://localhost/Seba/Personal/tienda_react_backend/producto')
+        axios.get(Global.urlApi + 'producto')
             .then(
                 res => {
                     this.setState({
@@ -35,7 +38,8 @@ export default class Productos extends Component {
                     {
                         this.state.productos.length >= 1 ? (  //Condicion
                             //Foreach del objeto Productos    -    LLamo al modulo para que muestre los datos con sus parametros
-                            this.state.productos.map((producto) => <Producto key={producto.idProducto} producto={producto} />) //Caso True
+                            this.state.productos.map((producto) =>
+                                <Producto key={producto.idProducto} producto={producto} />) //Caso True
                         ) : (                                                                                                  //Caso False
                             <div className="text-light">
                                 <strong className="me-2">Cargando...</strong>

@@ -38,7 +38,7 @@ export default class Tienda extends Component {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td className="col-md-2"><img src="" className="img-thumbnail" /></td>
+                                                <td className="col-md-2"><img src="" alt="" className="img-thumbnail" /></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>

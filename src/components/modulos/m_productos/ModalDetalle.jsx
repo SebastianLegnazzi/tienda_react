@@ -1,22 +1,17 @@
 import Modal from 'react-bootstrap/Modal';
 import '../../../assets/css/modalDetalle.css';
 import axios from 'axios';
+import Global from '../Global';
 
 //Modulo de modal de detalle
 export const ModalDetalle = ({ show, handleClose, producto }) => {
 
     //funcion que agrega al carrito el producto
-    const agregarCarrito = (e) =>{
+    const agregarCarrito = (e) => {
         e.preventDefault();
         let cantProducto = document.getElementById('cantidad_input').value;
-
-
-
-        
-        //SEGUIR CON LA CONSULTA PARA ALMACENAR EN EL CARRITO EL PRODUCTO
-
-
-
+        axios.get(Global.urlApi + 'compra/');
+        axios.post(Global.urlApi + 'compraitem');
 
     }
 
@@ -28,22 +23,20 @@ export const ModalDetalle = ({ show, handleClose, producto }) => {
             <Modal.Body className="bg-dark">
                 <div>
                     <div className='row'>
-                        <div id="content__foto__detalle" className="col-md-4">
+                        <div id="content__foto__detalle" className="col-md-3">
                             <img id="foto__detalle" className="img-thumbnail" src={producto.urlImagen} alt={producto.proNombre} />
                         </div>
                         <div id="content__info__detalle" className="col mt-sm-3">
                             <h3 id="nombre__detalle">{producto.proNombre}</h3>
                             <p id="descripcion__detalle">{producto.proDetalle}</p>
                             <p id="cantidad_detalle">Stock disponible: {producto.proCantStock}</p>
+                            <p id="precio__detalle">Precio ${producto.proPrecio}</p>
                         </div>
-                    </div>
-                    <div id="content__precio__detalle" className='mt-4'>
-                        <p id="precio__detalle">Precio ${producto.proPrecio}</p>
                     </div>
                 </div>
             </Modal.Body >
             <Modal.Footer className="bg-dark border-0">
-                <form method="post" onSubmit={agregarCarrito} className="needs-validation">
+                <form method="post" onSubmit={agregarCarrito} className="needs-validation col-md-4">
                     <input type="text" name="idProducto" id="idProducto" className="d-none" />
                     <div>
                         <input type="number" name="ciCantidad" id="cantidad_input" max={producto.proCantStock} min="1" className="form-control" placeholder="Ingrese la cantidad que desea comprar" required />
