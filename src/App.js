@@ -7,7 +7,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/paginas/Home';
 import Tienda from './components/paginas/Tienda';
 import Page404 from './components/paginas/Page404';
-import Login from './components/paginas/Login';
+import Login from './components/paginas/sesion/Login';
+import Registrarse from './components/paginas/sesion/Registrarse';
+import Cuenta from './components/paginas/sesion/Cuenta';
 
 function App() {
   
@@ -23,6 +25,8 @@ function App() {
           <Route exact path='/' Component={Home} />
           <Route exact path='/tienda' Component={Tienda} />
           <Route exact path='/login' Component={Login} />
+          <Route exact path='/register' Component={Registrarse} />
+          <Route exact path='/cuenta' Component={Cuenta} />
           <Route path='*' Component={Page404} />
         </Routes>
       </BrowserRouter>
