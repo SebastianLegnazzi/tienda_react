@@ -2,21 +2,72 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Swal from 'sweetalert2';
+import Global from '../../modulos/Global';
+import axios from 'axios';
+import md5 from 'md5';
+import { useNavigate } from "react-router-dom";
 
 
+/*===================== Variables de referencia a inputs del formulario =====================*/
+const refUsuario = React.createRef();
+const refEmail = React.createRef();
+const refContrasenia = React.createRef();
+const refContraseniaRep = React.createRef();
+
+/*===================== Formulario que carga la cuenta =====================*/
 export const FormularioRegistrarse = ({ }) => {
     const [validated, setValidated] = useState(false);
-
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+        event.preventDefault();
+        if (form.checkValidity()) {
+            const usuario = refUsuario.current.value;
+            const email = refEmail.current.value;                       //Obtenemos valores de los inputs
+            const contrasenia = md5(refContrasenia.current.value);
+            const contraseniaRep = md5(refContraseniaRep.current.value);
+            if (contrasenia === contraseniaRep) {                           //Verificamos que la contraseñas conicidan
+                axios.get(Global.urlApi + 'usuarios/email/' + email).then(      //Verificamos que el usuario no este registrado con el email
+                    res => {
+                        if (res.data.length == 0) {
+                            axios.post(Global.urlApi + 'usuarios', {            //Cargamos el usuario 
+                                usNombre: usuario,
+                                usMail: email,
+                                usPass: contrasenia,
+                            })
+                            Swal.fire({                                         //Devolvemos alerta succes
+                                icon: 'success',
+                                title: 'El usuario fue registrado exitosamente!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function () {
+                                navigate('/login')                   //Envia el usuario al login
+                            }, 1500);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',                       //Devolvemos alerta error
+                                title: 'El email ya se encuentra registrado!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    }
+                )
+            } else {
+                Swal.fire({
+                    icon: 'error',                               //Devolvemos alerta error
+                    title: 'La contraseñas no coinciden!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
         }
-
         setValidated(true);
     };
 
+    /*===================== Formulario para pedir datos =====================*/
     return (
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="Usuario" className='mb-3'>
@@ -26,8 +77,9 @@ export const FormularioRegistrarse = ({ }) => {
                         type="text"
                         placeholder="First name"
                         pattern="[a-zA-Z]+\s?[0-9]*"
+                        ref={refUsuario}
                     />
-                <Form.Control.Feedback type="invalid">Ingrese un usuario valido!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Ingrese un usuario valido!</Form.Control.Feedback>
                     <label for="floatingInput"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi me-1 mb-1 bi-person-fill text-dark" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                     </svg>Usuario</label>
@@ -42,6 +94,7 @@ export const FormularioRegistrarse = ({ }) => {
                             aria-describedby="inputGroupPrepend"
                             pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.([a-z]{3})(\.[a-z]{2})*$"
                             required
+                            ref={refEmail}
                         />
                         <Form.Control.Feedback type="invalid">Ingrese un Email valido!</Form.Control.Feedback>
                         <label for="floatingInput"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-at" viewBox="0 0 16 16">
@@ -56,6 +109,7 @@ export const FormularioRegistrarse = ({ }) => {
                         required
                         type="password"
                         placeholder=" "
+                        ref={refContrasenia}
                     />
                     <Form.Control.Feedback type="invalid">Ingrese una contraseña</Form.Control.Feedback>
                     <label for="floatingInput"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-lock me-1 mb-1 text-dark" viewBox="0 0 16 16">
@@ -69,6 +123,7 @@ export const FormularioRegistrarse = ({ }) => {
                         required
                         type="password"
                         placeholder=" "
+                        ref={refContraseniaRep}
                     />
                     <Form.Control.Feedback type="invalid">Ingrese una contraseña</Form.Control.Feedback>
                     <label for="floatingInput"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-lock me-1 mb-1 text-dark" viewBox="0 0 16 16">

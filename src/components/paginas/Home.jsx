@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../assets/css/home.css';
-import logo from '../../assets/img/imgTexto1.jpg';
+import imgTexto from '../../assets/img/imgTexto1.jpg';
 import video from '../../assets/video/presentacion.mp4';
 import ReactPlayer from 'react-player'
 
@@ -9,18 +9,19 @@ export default class Home extends Component {
         return (
             <div>
                 <div>
+                    {/*======= Panel Inicio =======*/}
                     <div className="ratio ratio-16x9">
-                        <ReactPlayer url={video} playing muted loop className="video" width={'100%'} height={'100%'}/>
+                        <ReactPlayer url={video} playing muted loop className="video" width={'100%'} height={'100%'} />
                         <div className="text-center text-light fst-italic d-flex align-items-center">
                             <h1 className="display-2 fw-bold texto-titulo">Bienvenido a Losadef!</h1>
                         </div>
                     </div>
                 </div>
-
+                {/*======= Info de la pagina =======*/}
                 <div className="container col-xxl-8 px-4 py-5">
                     <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
                         <div className="col-10 col-sm-8 col-lg-6">
-                            <img src={logo} className="img-fluid rounded imagen" alt={logo}/>
+                            <img src={imgTexto} className="img-fluid rounded imagen" alt="imagen de maquina de cocer"/>
                         </div>
                         <div className="col-lg-6">
                             <h1 className="display-5 fw-bold lh-1 mb-3 índigo-300 text-light fst-italic">¿Quienes Somos?</h1>
