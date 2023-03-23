@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import logCarritoCompras from '../../assets/img/carritoCompra.png';
 import '../../assets/css/tienda.css';
 import Productos from '../modulos/m_productos/Productos'
+import { Carrito } from '../modulos/m_tienda/Carrito';
 
 export default class Tienda extends Component {
 
@@ -61,18 +62,16 @@ export default class Tienda extends Component {
                     </div>
                 </div>
                 {/*===================== Pagina =====================*/}
-                <div className="container d-flex align-items-center justify-content-center">
-                    <div id="content__filter" className="col-md-8 text-center">
+                <div className="d-flex align-items-center justify-content-center">
+                    <div id="content__filter" className="col-md-6 text-center">
                         <input type="text" name="filtrador" id="filtrador" className="col-md-6" placeholder="Buscador" />
                     </div>
-                    <div id="content__carrito" className="row justify-content-end">
-                        <a className="link-light col-md-3" data-bs-toggle="modal" href="#exampleModalToggle2" role="button">
-                            <img id="logo_carrito" src={logCarritoCompras} className="img-fluid" alt="Logo de Carrito" />
-                        </a>
-                    </div>
+                    {/*===================== Carrito =====================*/}
+                    <Carrito logCarritoCompras={logCarritoCompras} />
                 </div>
-                {/*===================== Productos =====================*/}
-                <Productos />
+                    {/*===================== Productos =====================*/}
+                    <Productos />
+
             </div>
         )
     }
