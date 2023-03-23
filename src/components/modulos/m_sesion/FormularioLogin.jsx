@@ -24,7 +24,7 @@ export const FormularioLogin = ({ }) => {
             axios.get(Global.urlApi + 'usuarios/' + usuario).then(      //Realizamos la consulta con el nombre de la cuenta
                 res => {
                     if (res.data.length > 0) {
-                        res.data.forEach(cuenta => {                          //Buscamos entre todos los usuarios cual es la que coincide con la contraseña
+                        res.data.map(cuenta => {                          //Buscamos entre todos los usuarios cual es la que coincide con la contraseña
                             if (cuenta.usPass === contrasenia) {
                                 sessionStorage.setItem('login', true);   //Guardamos datos para manter la sesion
                                 sessionStorage.setItem('id', res.data[0].idUsuario);   //Guardamos datos para manter la sesion
@@ -69,7 +69,7 @@ export const FormularioLogin = ({ }) => {
                         pattern="[a-zA-Z]+\s?[0-9]*"
                         ref={refUsuario}
                     />
-                    <Form.Control.Feedback type="invalid">Ingrese un usuario valido!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Ingrese un usuario!</Form.Control.Feedback>
                     <label for="floatingInput"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi me-1 mb-1 bi-person-fill text-dark" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                     </svg>Usuario</label>

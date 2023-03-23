@@ -2,19 +2,105 @@ import Modal from 'react-bootstrap/Modal';
 import '../../../assets/css/modalDetalle.css';
 import axios from 'axios';
 import Global from '../Global';
+import Swal from 'sweetalert2';
 
-//Modulo de modal de detalle
 export const ModalDetalle = ({ show, handleClose, producto }) => {
-
-    //funcion que agrega al carrito el producto
+    var compras = null;
+    /*===================== Funcion que agrega al carrito el producto =====================*/
     const agregarCarrito = (e) => {
         e.preventDefault();
         let cantProducto = document.getElementById('cantidad_input').value;
-        axios.get(Global.urlApi + 'compra/');
-        axios.post(Global.urlApi + 'compraitem');
+        let hayCarrito = false       //esta variable verifica que exista un carrito "borrador"
+        axios.get(Global.urlApi + 'compra/usuario/' + sessionStorage.getItem('id')).then(       //Buscamos todas las compras del usuario
+            res => {
+                if (res.data.length > 0) {
+                    res.data.map(compra => {
+                        axios.get(Global.urlApi + 'compraestado/compra/' + compra.idCompra).then(       //Buscamos el estado de todas las compras
+                            res => {
+                                if (res.data[0].idCompraEstadoTipo === 1) {                //Comprobamos que este en estado "1" = "borrador"
+                                    verificarProductoRep(res.data[0].idCompra, cantProducto);
+                                    hayCarrito = true;
+                                }
+                            });
+                    });
+                    setTimeout(function () {
+                        if (!hayCarrito) {
+                            crearCarritoBorrador(cantProducto);
+                        }
+                    }, 1000);
+                }
+            });
+    };
 
+    /*===================== Modulo que crea y carga el producto en un carrito "borrador" =====================*/
+    const crearCarritoBorrador = (cantProducto) => {
+        axios.post(Global.urlApi + 'compra', {            //Creamos una compra nueva
+            idUsuario: sessionStorage.getItem('id')
+        }).then(
+            res => {
+                axios.post(Global.urlApi + 'compraestado', {       //Le seteamos el estado de "borrador"
+                    idCompra: res.data.resp,
+                    idCompraEstadoTipo: 1
+                });
+                cargarProducto(res.data.resp, cantProducto)
+            });
     }
 
+    /*===================== Modulo Producto Repetido =====================*/
+    const verificarProductoRep = (idCompra, cantProducto) => {
+        axios.get(Global.urlApi + 'compraitem/compra/' + idCompra).then(
+            res => {
+                if (res.data[0].idProducto == producto.idProducto) {
+                    let cantProdNuevo = (parseInt(cantProducto) + parseInt(res.data[0].ciCantidad));      //Suma la cantidad del producto al carrito
+                    console.log(res.data[0].idCompraItem)
+                    axios.put(Global.urlApi + 'compraitem', {
+                        idCompraItem: res.data[0].idCompraItem,
+                        idProducto: res.data[0].idProducto,
+                        idCompra: res.data[0].idCompra,
+                        ciCantidad: cantProdNuevo
+                    });
+                    actualizarStock(cantProducto);
+                } else {
+                    cargarProducto(idCompra, cantProducto)             //Carga producto si no se encuentra en el carrito
+                }
+            });
+    }
+
+    /*===================== Modulo Actualiza Stock =====================*/
+    const actualizarStock = (cantComprada) => {
+        let stockActualizado = (producto.proCantStock - cantComprada);
+        axios.put(Global.urlApi + 'producto', {
+            idProducto: producto.idProducto,
+            proNombre: producto.proNombre,
+            proDetalle: producto.proDetalle,                        //Actualiza Stock
+            proCantStock: stockActualizado,
+            proPrecio: producto.proPrecio,
+            urlImagen: producto.urlImagen
+        })
+        Swal.fire({
+            icon: 'success',
+            title: 'El producto fue cargado al carrito!',       //Alerta de success
+            showConfirmButton: false,
+            timer: 1500
+        });
+        setTimeout(function () {
+            window.location.href = "/tienda";
+        }, 1500);
+    }
+
+    /*===================== Modulo Carga Producto =====================*/
+    const cargarProducto = (idCompra, cantProducto) => {
+        axios.post(Global.urlApi + 'compraitem', {
+            ciCantidad: cantProducto,
+            idCompra: idCompra,
+            idProducto: producto.idProducto
+        });
+        actualizarStock(cantProducto);
+    }
+
+
+
+    /*===================== Modal de detalle =====================*/
     return (
         <Modal show={show} onHide={handleClose} size="xl">
             <Modal.Header className="bg-dark text-light border-1 border-secondary justify-content-center">
