@@ -3,10 +3,9 @@ import axios from 'axios';
 import { Producto } from './Producto';
 import Global from '../Global';
 
-
 export default class Productos extends Component {
 
-    /*===================== Cargo variables =====================*/
+    /*===================== Cargo State =====================*/
     constructor(props) {
         super(props)
         this.state = {

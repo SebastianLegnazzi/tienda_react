@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logCarritoCompras from '../../assets/img/carritoCompra.png';
 import '../../assets/css/tienda.css';
 import Productos from '../modulos/m_productos/Productos'
-import { Carrito } from '../modulos/m_tienda/Carrito';
+import { Carrito } from '../modulos/m_carrito/Carrito';
 
 export default class Tienda extends Component {
 

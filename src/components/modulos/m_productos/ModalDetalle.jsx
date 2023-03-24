@@ -5,6 +5,7 @@ import Global from '../Global';
 import Swal from 'sweetalert2';
 
 export const ModalDetalle = ({ show, handleClose, producto }) => {
+
     /*===================== Funcion que agrega al carrito el producto =====================*/
     const agregarCarrito = (e) => {
         e.preventDefault();

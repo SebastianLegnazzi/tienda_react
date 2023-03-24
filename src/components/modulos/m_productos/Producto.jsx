@@ -3,11 +3,10 @@ import React, { useState } from 'react';
 
 //Modulo de las tarjetas productos
 export const Producto = ({ producto }) => {
-
     //Variables para mostrar u ocultar el modal
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);       //Funcion que muestra modal
+    const handleShow = () => setShow(true);         //Funcion que oculta modal
 
     return (
         <React.Fragment>
