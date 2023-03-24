@@ -1,4 +1,4 @@
-var Global = {
+const Global = {
     urlApi: "http://192.168.1.76/Seba/Personal/tienda_react_backend/",
 }
 

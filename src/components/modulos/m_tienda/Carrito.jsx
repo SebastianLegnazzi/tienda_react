@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ModalCarrito } from './ModalCarrito';
+import ModalCarrito  from './ModalCarrito';
 
 export const Carrito = ({ logCarritoCompras }) => {
 
@@ -11,9 +11,9 @@ export const Carrito = ({ logCarritoCompras }) => {
     /*===================== Carrito =====================*/
     return (
         <React.Fragment>
-            <div id="content__carrito" className="row justify-content-end">
+            <div className="col-md-1 justify-content-end">
                 <a className="link-light col-md-3" onClick={handleShow} role="button">
-                    <img id="logo_carrito" src={logCarritoCompras} className="img-fluid col-4 col-md-12" alt="Logo de Carrito" />
+                    <img src={logCarritoCompras} className="img-fluid col-4 col-md-8" alt="Logo de Carrito" />
                 </a>
             </div>
             <ModalCarrito show={show} handleClose={handleClose} />

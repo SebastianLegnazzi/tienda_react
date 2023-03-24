@@ -13,20 +13,24 @@ export const ModalDetalle = ({ show, handleClose, producto }) => {
         axios.get(Global.urlApi + 'compra/usuario/' + sessionStorage.getItem('id')).then(       //Buscamos todas las compras del usuario
             res => {
                 if (res.data.length > 0) {
-                    res.data.map(compra => {
+                    var finBuscar = res.data.length;        //Limite de busqueda de compras en estado "borrador"
+                    var i = 0       //index que funciona para buscar entre todas las compras que existen
+                    res.data.forEach(compra => {
                         axios.get(Global.urlApi + 'compraestado/compra/' + compra.idCompra).then(       //Buscamos el estado de todas las compras
                             res => {
-                                if (res.data[0].idCompraEstadoTipo === 1) {                //Comprobamos que este en estado "1" = "borrador"
+                                if (res.data[0].idCompraEstadoTipo === 1 && !hayCarrito) {                //Comprobamos que este en estado "1" = "borrador"
                                     verificarProductoRep(res.data[0].idCompra, cantProducto);
                                     hayCarrito = true;
+                                } else {
+                                    i++
+                                }
+                                if (!hayCarrito && finBuscar <= i) {
+                                    crearCarritoBorrador(cantProducto);
                                 }
                             });
                     });
-                    setTimeout(function () {
-                        if (!hayCarrito) {
-                            crearCarritoBorrador(cantProducto);
-                        }
-                    }, 1000);
+                } else {
+                    crearCarritoBorrador(cantProducto);
                 }
             });
     };
@@ -47,20 +51,33 @@ export const ModalDetalle = ({ show, handleClose, producto }) => {
 
     /*===================== Modulo Producto Repetido =====================*/
     const verificarProductoRep = (idCompra, cantProducto) => {
+        var productoRep = false;
+        var i = 0;
+        var cantProductosCarrito = 0;
         axios.get(Global.urlApi + 'compraitem/compra/' + idCompra).then(
             res => {
-                if (res.data[0].idProducto == producto.idProducto) {
-                    let cantProdNuevo = (parseInt(cantProducto) + parseInt(res.data[0].ciCantidad));      //Suma la cantidad del producto al carrito
-                    console.log(res.data[0].idCompraItem)
-                    axios.put(Global.urlApi + 'compraitem', {
-                        idCompraItem: res.data[0].idCompraItem,
-                        idProducto: res.data[0].idProducto,
-                        idCompra: res.data[0].idCompra,
-                        ciCantidad: cantProdNuevo
+                if (res.data.length > 0) {
+                    cantProductosCarrito = res.data.length
+                    res.data.forEach(productoCarrito => {
+                        if (productoCarrito.idProducto === producto.idProducto) {
+                            let cantProdNuevo = (parseInt(cantProducto) + parseInt(productoCarrito.ciCantidad));      //Suma la cantidad del producto al carrito
+                            axios.put(Global.urlApi + 'compraitem', {
+                                idCompraItem: productoCarrito.idCompraItem,
+                                idProducto: productoCarrito.idProducto,
+                                idCompra: productoCarrito.idCompra,
+                                ciCantidad: cantProdNuevo
+                            });
+                            actualizarStock(cantProducto);
+                            productoRep = true;
+                        } else {
+                            i++;
+                        }
+                        if (!productoRep && cantProductosCarrito <= i) {
+                            cargarProducto(idCompra, cantProducto)          //Carga producto si no se encuentra en el carrito
+                        }
                     });
-                    actualizarStock(cantProducto);
                 } else {
-                    cargarProducto(idCompra, cantProducto)             //Carga producto si no se encuentra en el carrito
+                    cargarProducto(idCompra, cantProducto)
                 }
             });
     }

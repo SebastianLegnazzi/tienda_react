@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import logCarritoCompras from '../../assets/img/carritoCompra.png';
 import '../../assets/css/tienda.css';
 import Productos from '../modulos/m_productos/Productos'

@@ -34,7 +34,6 @@
     font-size: 18px;
     color: #111;
     box-shadow: 3px 3px 10px #111;
-    outline: none;
     padding: 5px;
   }
   
@@ -43,16 +42,6 @@
   }
   
   /* Contador Carrito */
-  
-  #contador__carrito {
-    margin-right: 40px;
-    font-size: 18px;
-    font-weight: bold;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: rgb(255, 126, 158);
-    line-height: 0em;
-    width: 100%;
-  }
   
   #total-Compra {
     width: 100%;
