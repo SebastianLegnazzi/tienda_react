@@ -33,19 +33,21 @@ export default class Productos extends Component {
         return (
             <div>
                 {/*===================== Tarjetas de productos =====================*/}
-                <div id="content__productos" className="text-center" >
-                    {
-                        this.state.productos.length >= 1 ? (  //Condicion
-                            //Foreach del objeto Productos    -    LLamo al modulo para que muestre los datos con sus parametros
-                            this.state.productos.map((producto) =>
-                                <Producto key={producto.idProducto} producto={producto} />) //Caso True
-                        ) : (                                                                                                  //Caso False
-                            <div className="text-light">
-                                <strong className="me-2">Cargando...</strong>
-                                <div className="spinner-border spinner-border-sm ml-auto" role="status" aria-hidden="true"></div>
-                            </div>
-                        )
-                    }
+                <div className="text-center" >
+                    <div className='row justify-content-center container-fluid'>
+                        {
+                            this.state.productos.length >= 1 ? (  //Condicion
+                                //Foreach del objeto Productos    -    LLamo al modulo para que muestre los datos con sus parametros
+                                this.state.productos.map((producto) =>
+                                    <Producto key={producto.idProducto} producto={producto} />) //Caso True
+                            ) : (                                                                                                  //Caso False
+                                <div className="text-light contenedor_loading_producto">
+                                    <strong className="me-2">Cargando...</strong>
+                                    <div className="spinner-border spinner-border-sm ml-auto" role="status" aria-hidden="true"></div>
+                                </div>
+                            )
+                        }
+                    </div>
                 </div>
             </div>
         )

@@ -10,10 +10,10 @@ export const Producto = ({ producto }) => {
 
     return (
         <React.Fragment>
-            <div className="tarjetas-productos" >
+            <div className="col-5 col-sm-3 col-md-3 col-lg-2 m-2 tarjetas-productos" >
                 <a className="link-light" onClick={handleShow} role="button">
                     <div className="tarjeta-producto__imagen">
-                        <img className="foto__producto" src={producto.urlImagen} alt="imagen Producto" />
+                        <img className="foto__producto img-fluid" src={producto.urlImagen} alt={producto.proNombre} />
                     </div>
                     <div className="tarjeta-producto__info">
                         <p className="nombre__producto">{producto.proNombre}</p>

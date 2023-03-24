@@ -1,12 +1,12 @@
 
 /* tarjetas productos */
-
+.contenedor_loading_producto{
+  height: 100vh;
+}
 .tarjetas-productos {
     background-color: rgb(58, 58, 58);
-    padding: 10px;
+    padding: 5px;
     box-shadow: 0 0 10px #111;
-    margin: 20px;
-    float: left;
     transition: all 0.3s;
     color: white;
   }
@@ -39,16 +39,4 @@
   
   .filter {
     display: none;
-  }
-  
-  /* Contador Carrito */
-  
-  #total-Compra {
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px 0;
-    font-size: 20px;
-    color: rgb(107, 255, 107);
-    text-align: center;
-    border: 2px solid rgb(99, 255, 99);
   }
