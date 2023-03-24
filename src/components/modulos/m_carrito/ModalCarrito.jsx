@@ -2,7 +2,8 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import Global from '../Global';
 import React, { Component } from 'react';
-import ItemProducto from './ItemProducto'
+import ItemProducto from './ItemProducto';
+import Swal from 'sweetalert2';
 
 export default class ModalCarrito extends Component {
     /*===================== Cargo State =====================*/
@@ -11,6 +12,7 @@ export default class ModalCarrito extends Component {
         this.state = {
             productosCarrito: [],
             status: '',
+            compraEstado: {},
         }
     }
 
@@ -18,7 +20,8 @@ export default class ModalCarrito extends Component {
     buscarCarritoBorrador = () => {
         this.setState({
             productosCarrito: [],
-            status: ''
+            status: '',
+            compraEstado: {},
         })
         let hayCarrito = false       //esta variable verifica que exista un carrito "borrador"
         axios.get(Global.urlApi + 'compra/usuario/' + sessionStorage.getItem('id')).then(       //Buscamos todas las compras del usuario
@@ -30,6 +33,9 @@ export default class ModalCarrito extends Component {
                         axios.get(Global.urlApi + 'compraestado/compra/' + compra.idCompra).then(       //Buscamos el estado de todas las compras
                             res => {
                                 if (res.data[0].idCompraEstadoTipo === 1) {                //Comprobamos que este en estado "1" = "borrador"
+                                    this.setState({
+                                        compraEstado: res.data[0],
+                                    })
                                     hayCarrito = true;
                                     this.buscarCompraItem(res.data[0].idCompra);
                                 } else {
@@ -56,9 +62,16 @@ export default class ModalCarrito extends Component {
     buscarCompraItem = (idCompra) => {
         axios.get(Global.urlApi + 'compraitem/compra/' + idCompra).then(
             res => {
-                res.data.forEach(compraItem => {
-                    this.buscarProducto(compraItem.idProducto, compraItem.ciCantidad, compraItem);
-                });
+                if(res.data.length > 0){        //Verifico que el carrito tenga productos
+                    res.data.forEach(compraItem => {
+                        this.buscarProducto(compraItem.idProducto, compraItem.ciCantidad, compraItem);
+                    });
+                }else{
+                    this.setState({
+                        productosCarrito: [0],
+                        status: 'none'
+                    })
+                }
             });
     };
 
@@ -75,6 +88,51 @@ export default class ModalCarrito extends Component {
                 })
             });
     }
+
+    /*===================== Modulo que inicia la compra =====================*/
+    iniciarCompra = () => {
+        axios.put(Global.urlApi + 'compraEstado', {
+            idCompraEstado: this.state.compraEstado.idCompraEstado,
+            idCompra: this.state.compraEstado.idCompra,
+            idCompraEstadoTipo: 2,
+            ceFechaIni: this.state.compraEstado.ceFechaIni,
+            ceFechaFin: this.fechaActual()
+        }).then(
+            res => {
+                if(res.data.resp == 1){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'La compra fue iniciada!',       //Alerta de success
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    setTimeout(() => {
+                        window.location.href = "/tienda";
+                    }, 1500);
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'La compra no se ha podido iniciar!',       //Alerta de error
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    setTimeout(() => {
+                        window.location.href = "/tienda";
+                    }, 1500);
+                }
+            })
+    }
+
+    /*===================== Modulo que devuelve la fecha actual =====================*/
+    fechaActual = () => {
+        let fecha = new Date();
+        let dia = fecha.getDate();
+        let mes = fecha.getMonth();
+        let anio = fecha.getFullYear();
+        let hora = fecha.toLocaleTimeString();
+        return anio + '-' + mes + '-' + dia + ' ' + hora
+    }
+
 
     render() {
         return (
@@ -100,7 +158,7 @@ export default class ModalCarrito extends Component {
                                     </thead>
                                     <tbody>
                                         {
-                                            this.state.productosCarrito.map((producto, i) => <ItemProducto key={i} producto={producto}/>)
+                                            this.state.productosCarrito.map((producto, i) => <ItemProducto key={i} producto={producto} />)
                                         }
                                     </tbody>
                                 </table>
@@ -122,7 +180,7 @@ export default class ModalCarrito extends Component {
                     )}
                 </Modal.Body >
                 <Modal.Footer className="bg-dark border-0">
-                    <button className="btn btn-success me-2" >Comprar</button>
+                    <button className="btn btn-success me-2" onClick={this.iniciarCompra} >Comprar</button>
                     <button className="btn btn-danger" onClick={this.props.handleClose}>Cerrar</button>
                 </Modal.Footer>
             </Modal >
